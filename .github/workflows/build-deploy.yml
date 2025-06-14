@@ -1,0 +1,23 @@
+name: Build and Deploy Code
+
+# on: [push, pull_request]
+  # push:
+  #   # branches: ["main", "another branch", "feature branch"]
+  #   branches:
+  #     - "main"
+  #     - "another branches"
+  # pull_request:
+  #   branches:
+  #     - "test_branch"
+
+on: [push, pull_request]
+
+jobs:
+  job1:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: pulling git repo
+        uses: actions/checkout@v4
+        name: hello world!!
+        run: echo "hello world!!"
+

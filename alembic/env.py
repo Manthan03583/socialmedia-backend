@@ -8,7 +8,7 @@ from app.models import Base
 from app.config import settings
 
 
-database_url = f"postgresql+psycopg2://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}".replace('%', '%%')
+database_url = f"postgresql+psycopg2://{settings.database_username}:{settings.database_password}@{settings.database_hostname}:{settings.database_port}/{settings.database_name}"
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config

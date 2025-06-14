@@ -64,8 +64,7 @@ def get_post(id: int, db: Session = Depends(get_db), current_user: int = Depends
     # cursor.execute(""" select * from posts where id = %s """, (str(id)),)
     # post = cursor.fetchone()
     # post = db.query(models.Post).filter(models.Post.id == id).first()
-    post =  db.query(models.Post, func.count(models.Vote.post_id).label("votes")).join(
-        models.Vote, models.Vote.post_id == models.Post.id, isouter=True).group_by(models.Post.id).filter(models.Post.id == id).first()
+    post =  db.query(models.Post, func.count(models.Vote.post_id).label("votes")).join(models.Vote, models.Vote.post_id == models.Post.id, isouter=True).group_by(models.Post.id).filter(models.Post.id == id).first()
     if not post:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with id: {id} was not found")
         # response.status_code = status.HTTP_404_NOT_FOUND
@@ -90,8 +89,8 @@ def delete_post(id: int, db: Session = Depends(get_db),  current_user: int = Dep
     if post == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with id: {id} does not exist")
     
-    # if post.owner_id != current_user.id:
-    #     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform requested action")
+    if post.owner_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform requested action")
 
     post_query.delete(synchronize_session=False)
     db.commit()
@@ -112,8 +111,8 @@ def update_post(id: int, updated_post: schema.PostUpdate, db: Session = Depends(
     if post == None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"post with id: {id} does not exist")
 
-    # if post.owner_id != current_user.id:
-    #     raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform requested action")
+    if post.owner_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authorized to perform requested action")
 
 
     post_query.update(updated_post.model_dump(), synchronize_session=False)
