@@ -67,7 +67,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{secrets.DOCKER_HUB_USERNAME}}/fastapi:latest
+          images: ${{secrets.DOCKER_HUB_USERNAME}}/fastapi
+          tags: latest
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
