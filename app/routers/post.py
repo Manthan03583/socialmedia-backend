@@ -36,7 +36,7 @@ def get_posts(db: Session = Depends(get_db), current_user: int = Depends(oauth2.
 @router.post("/", status_code=status.HTTP_201_CREATED, response_model=schema.Post)
 def create_posts(post : schema.PostCreate, db: Session = Depends(get_db), current_user: int = Depends(oauth2.get_current_user)):
     # print(post)
-    # print(post.model_dump()) 
+    # print(post.model_dump())
     # post.model_dump() convert pydantic model to dictionary
     # we can also use post.dict()
 
